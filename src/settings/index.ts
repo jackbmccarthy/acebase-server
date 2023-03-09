@@ -3,6 +3,8 @@ import { readFileSync } from 'fs';
 import { AceBaseServerEmailSettings } from './email';
 import { Server } from 'http';
 
+
+
 export type AceBaseServerHttpsSettings = {
     enabled?: boolean;
     keyPath?: string;
@@ -229,6 +231,12 @@ export type AceBaseServerSettings = Partial<{
      * @default true
      */
     logColors: boolean;
+
+    /**
+     * Add Custom Express Middlewares to add custom routes, other than using the .extend method.
+     * @default []
+     */
+    plugins: any[];
 }>
 
 export class AceBaseServerConfig {
@@ -249,6 +257,7 @@ export class AceBaseServerConfig {
     readonly storage?: AceBaseStorageSettings;
     readonly sponsor: boolean = false;
     readonly logColors: boolean = true;
+    readonly plugins: any[] = [];
 
     constructor(settings: AceBaseServerSettings) {
         if (typeof settings !== 'object') { settings = {}; }
@@ -270,5 +279,6 @@ export class AceBaseServerConfig {
         if (typeof settings.storage === 'object') { this.storage = settings.storage; }
         if (typeof settings.sponsor === 'boolean') { this.sponsor = settings.sponsor; }
         if (typeof settings.logColors === 'boolean') { this.logColors = settings.logColors; }
+        if (typeof settings.plugins === 'object') { this.plugins = settings.plugins; }
     }
 }

@@ -81,6 +81,12 @@ class AceBaseServer extends acebase_core_1.SimpleEventEmitter {
         })();
         // Create Express app
         this.app = (0, http_1.createApp)({ trustProxy: true, maxPayloadSize: this.config.maxPayloadSize });
+        //Add any Express Middleware plugins if included.
+        if (options.plugins.length > 0) {
+            for (const plugin of options.plugins) {
+                plugin(this.app);
+            }
+        }
         // Initialize and start server
         this.init({ authDb });
     }

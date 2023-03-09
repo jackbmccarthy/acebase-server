@@ -124,6 +124,7 @@ class AceBaseServerConfig {
         this.rootPath = '';
         this.sponsor = false;
         this.logColors = true;
+        this.plugins = [];
         if (typeof settings !== 'object') {
             settings = {};
         }
@@ -166,6 +167,9 @@ class AceBaseServerConfig {
         }
         if (typeof settings.logColors === 'boolean') {
             this.logColors = settings.logColors;
+        }
+        if (typeof settings.plugins === 'object') {
+            this.plugins = settings.plugins;
         }
     }
 }
