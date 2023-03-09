@@ -84,7 +84,7 @@ class AceBaseServer extends acebase_core_1.SimpleEventEmitter {
         //Add any Express Middleware plugins if included.
         if (options.plugins.length > 0) {
             for (const plugin of options.plugins) {
-                plugin(this.app);
+                plugin(this.app, this.db);
             }
         }
         // Initialize and start server
