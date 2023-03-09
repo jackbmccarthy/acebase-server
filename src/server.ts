@@ -139,7 +139,7 @@ export class AceBaseServer extends SimpleEventEmitter {
         //Add any Express Middleware plugins if included.
         if(options.plugins.length > 0){
             for (const plugin of options.plugins) {
-                plugin(this.app)
+                plugin(this.app, this.db)
             }
         }
 
