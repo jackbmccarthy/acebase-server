@@ -24,7 +24,6 @@ const cors_1 = require("./middleware/cors");
 const auth_1 = require("./routes/auth");
 const auth_2 = require("./auth");
 const data_1 = require("./routes/data");
-const webmanager_1 = require("./routes/webmanager");
 const meta_1 = require("./routes/meta");
 const cache_1 = require("./middleware/cache");
 const logger_1 = require("./logger");
@@ -176,7 +175,7 @@ class AceBaseServer extends acebase_core_1.SimpleEventEmitter {
             // Add data endpoints
             (0, data_1.default)(routeEnv);
             // Add webmanager endpoints
-            (0, webmanager_1.default)(routeEnv);
+            // addWebManagerRoutes(routeEnv);
             // Allow adding custom routes
             this.extend = (method, ext_path, handler) => {
                 const route = `/ext/${db.name}/${ext_path}`;
