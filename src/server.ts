@@ -225,7 +225,7 @@ export class AceBaseServer extends SimpleEventEmitter {
         addDataRoutes(routeEnv);
 
         // Add webmanager endpoints
-        addWebManagerRoutes(routeEnv);
+       // addWebManagerRoutes(routeEnv);
 
         // Allow adding custom routes
         this.extend = (method: HttpMethod, ext_path: string, handler: (req: HttpRequest, res: HttpResponse) => any) => {
