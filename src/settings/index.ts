@@ -2,7 +2,7 @@ import { AceBaseStorageSettings } from 'acebase';
 import { readFileSync } from 'fs';
 import { AceBaseServerEmailSettings } from './email';
 import { Server } from 'http';
-
+import {join} from 'path'
 
 
 export type AceBaseServerHttpsSettings = {
@@ -237,6 +237,23 @@ export type AceBaseServerSettings = Partial<{
      * @default []
      */
     plugins: any[];
+
+    /**
+     * Changes Express listener to use Unix Sockets
+     * @default false
+     */
+    useUnixSocket:string;
+
+    /**
+     * File Name of the Unix Socket
+     * @default "acebase.socket"
+     */
+    unixSocketName:string
+    /**
+     * Folder Path of the Unix Socket
+     *
+     */
+    unixSocketPath:string
 }>
 
 export class AceBaseServerConfig {
@@ -258,6 +275,9 @@ export class AceBaseServerConfig {
     readonly sponsor: boolean = false;
     readonly logColors: boolean = true;
     readonly plugins: any[] = [];
+    readonly useUnixSocket: boolean = false;
+    readonly unixSocketName:string = "acebase.socket"
+    readonly unixSocketPath: string = join(__dirname, this.unixSocketName)
 
     constructor(settings: AceBaseServerSettings) {
         if (typeof settings !== 'object') { settings = {}; }
@@ -280,5 +300,8 @@ export class AceBaseServerConfig {
         if (typeof settings.sponsor === 'boolean') { this.sponsor = settings.sponsor; }
         if (typeof settings.logColors === 'boolean') { this.logColors = settings.logColors; }
         if (typeof settings.plugins === 'object') { this.plugins = settings.plugins; }
+        if (typeof settings.useUnixSocket === 'boolean') { this.useUnixSocket = settings.useUnixSocket; }
+        if (typeof settings.unixSocketName === 'string') { this.unixSocketName = settings.unixSocketName; }
+        if (typeof settings.unixSocketPath === 'string') { this.unixSocketPath = settings.unixSocketPath; }
     }
 }

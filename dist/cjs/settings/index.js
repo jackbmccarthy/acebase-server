@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AceBaseServerConfig = exports.AceBaseServerTransactionSettings = exports.AceBaseServerAuthenticationSettings = exports.AUTH_ACCESS_DEFAULT = exports.AceBaseServerHttpsConfig = void 0;
 const fs_1 = require("fs");
+const path_1 = require("path");
 class AceBaseServerHttpsConfig {
     constructor(settings) {
         this.enabled = true;
@@ -125,6 +126,9 @@ class AceBaseServerConfig {
         this.sponsor = false;
         this.logColors = true;
         this.plugins = [];
+        this.useUnixSocket = false;
+        this.unixSocketName = "acebase.socket";
+        this.unixSocketPath = (0, path_1.join)(__dirname, this.unixSocketName);
         if (typeof settings !== 'object') {
             settings = {};
         }
@@ -170,6 +174,15 @@ class AceBaseServerConfig {
         }
         if (typeof settings.plugins === 'object') {
             this.plugins = settings.plugins;
+        }
+        if (typeof settings.useUnixSocket === 'boolean') {
+            this.useUnixSocket = settings.useUnixSocket;
+        }
+        if (typeof settings.unixSocketName === 'string') {
+            this.unixSocketName = settings.unixSocketName;
+        }
+        if (typeof settings.unixSocketPath === 'string') {
+            this.unixSocketPath = settings.unixSocketPath;
         }
     }
 }

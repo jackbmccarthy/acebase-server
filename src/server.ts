@@ -246,12 +246,23 @@ export class AceBaseServer extends SimpleEventEmitter {
 
         // Start listening, if no external server
         if (!this.config.server) {
-            server.listen(config.port, config.host, () => {
+            if(this.config.useUnixSocket){
+                server.listen(this.config.unixSocketPath, () => {
+                    // Ready!!
+                    this.debug.log(`"${db.name}" database server running at ${this.url}`);
+                    this._ready = true;
+                    this.emitOnce(`ready`);
+                })
+            }
+            else{
+              server.listen(config.port, config.host, () => {
                 // Ready!!
                 this.debug.log(`"${db.name}" database server running at ${this.url}`);
                 this._ready = true;
                 this.emitOnce(`ready`);
-            });
+            });  
+            }
+            
         }
 
         // Setup pause and resume methods
