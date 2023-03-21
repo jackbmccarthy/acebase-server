@@ -165,6 +165,26 @@ export declare type AceBaseServerSettings = Partial<{
      * @default true
      */
     logColors: boolean;
+    /**
+     * Add Custom Express Middlewares to add custom routes, other than using the .extend method.
+     * @default []
+     */
+    plugins: any[];
+    /**
+     * Changes Express listener to use Unix Sockets
+     * @default false
+     */
+    useUnixSocket: string;
+    /**
+     * File Name of the Unix Socket
+     * @default "acebase.socket"
+     */
+    unixSocketName: string;
+    /**
+     * Folder Path of the Unix Socket
+     *
+     */
+    unixSocketPath: string;
 }>;
 export declare class AceBaseServerConfig {
     readonly logLevel: 'verbose' | 'log' | 'warn' | 'error';
@@ -183,6 +203,10 @@ export declare class AceBaseServerConfig {
     readonly storage?: AceBaseStorageSettings;
     readonly sponsor: boolean;
     readonly logColors: boolean;
+    readonly plugins: any[];
+    readonly useUnixSocket: boolean;
+    readonly unixSocketName: string;
+    readonly unixSocketPath: string;
     constructor(settings: AceBaseServerSettings);
 }
 //# sourceMappingURL=index.d.ts.map

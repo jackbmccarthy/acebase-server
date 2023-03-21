@@ -12,7 +12,6 @@ import addCorsMiddleware from './middleware/cors.js';
 import addAuthenticionRoutes from './routes/auth.js';
 import setupAuthentication from './auth.js';
 import addDataRoutes from './routes/data.js';
-import addWebManagerRoutes from './routes/webmanager.js';
 import addMetadataRoutes from './routes/meta.js';
 import addCacheMiddleware from './middleware/cache.js';
 import { DatabaseLog } from './logger.js';
@@ -67,6 +66,12 @@ export class AceBaseServer extends SimpleEventEmitter {
         })();
         // Create Express app
         this.app = createApp({ trustProxy: true, maxPayloadSize: this.config.maxPayloadSize });
+        //Add any Express Middleware plugins if included.
+        if (options.plugins.length > 0) {
+            for (const plugin of options.plugins) {
+                plugin(this.app, this.db);
+            }
+        }
         // Initialize and start server
         this.init({ authDb });
     }
@@ -152,7 +157,7 @@ export class AceBaseServer extends SimpleEventEmitter {
         // Add data endpoints
         addDataRoutes(routeEnv);
         // Add webmanager endpoints
-        addWebManagerRoutes(routeEnv);
+        // addWebManagerRoutes(routeEnv);
         // Allow adding custom routes
         this.extend = (method, ext_path, handler) => {
             const route = `/ext/${db.name}/${ext_path}`;
@@ -168,12 +173,22 @@ export class AceBaseServer extends SimpleEventEmitter {
         // add404Middleware(routeEnv);
         // Start listening, if no external server
         if (!this.config.server) {
-            server.listen(config.port, config.host, () => {
-                // Ready!!
-                this.debug.log(`"${db.name}" database server running at ${this.url}`);
-                this._ready = true;
-                this.emitOnce(`ready`);
-            });
+            if (this.config.useUnixSocket) {
+                server.listen(this.config.unixSocketPath, () => {
+                    // Ready!!
+                    this.debug.log(`"${db.name}" database server running at ${this.config.unixSocketPath}`);
+                    this._ready = true;
+                    this.emitOnce(`ready`);
+                });
+            }
+            else {
+                server.listen(config.port, config.host, () => {
+                    // Ready!!
+                    this.debug.log(`"${db.name}" database server running at ${this.url}`);
+                    this._ready = true;
+                    this.emitOnce(`ready`);
+                });
+            }
         }
         // Setup pause and resume methods
         let paused = false;

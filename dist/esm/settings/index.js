@@ -1,4 +1,5 @@
 import { readFileSync } from 'fs';
+import { join } from 'path';
 export class AceBaseServerHttpsConfig {
     constructor(settings) {
         this.enabled = true;
@@ -118,6 +119,10 @@ export class AceBaseServerConfig {
         this.rootPath = '';
         this.sponsor = false;
         this.logColors = true;
+        this.plugins = [];
+        this.useUnixSocket = false;
+        this.unixSocketName = "acebase.socket";
+        this.unixSocketPath = join(/file:\/\/(.+)\/[^/]/.exec(import.meta.url)[1], this.unixSocketName);
         if (typeof settings !== 'object') {
             settings = {};
         }
@@ -160,6 +165,18 @@ export class AceBaseServerConfig {
         }
         if (typeof settings.logColors === 'boolean') {
             this.logColors = settings.logColors;
+        }
+        if (typeof settings.plugins === 'object') {
+            this.plugins = settings.plugins;
+        }
+        if (typeof settings.useUnixSocket === 'boolean') {
+            this.useUnixSocket = settings.useUnixSocket;
+        }
+        if (typeof settings.unixSocketName === 'string') {
+            this.unixSocketName = settings.unixSocketName;
+        }
+        if (typeof settings.unixSocketPath === 'string') {
+            this.unixSocketPath = settings.unixSocketPath;
         }
     }
 }
