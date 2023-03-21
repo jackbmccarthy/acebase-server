@@ -194,7 +194,7 @@ class AceBaseServer extends acebase_core_1.SimpleEventEmitter {
                 if (this.config.useUnixSocket) {
                     server.listen(this.config.unixSocketPath, () => {
                         // Ready!!
-                        this.debug.log(`"${db.name}" database server running at ${this.url}`);
+                        this.debug.log(`"${db.name}" database server running at ${this.config.unixSocketPath}`);
                         this._ready = true;
                         this.emitOnce(`ready`);
                     });
